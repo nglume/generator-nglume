@@ -17,17 +17,21 @@ module.exports = generators.Base.extend({
 
     _commands: {
         '_baseCommand' : 'vagrant',
-        'dmp|dumpautoload|dump-autoload': {
+        'dmp': {
             args: ['ssh', '--command', 'cd /data && docker-compose run phpcomposer dumpautoload'],
             description: "Rebuild composer autoload files"
         },
-        'dmpo|dumpautoload -o|dump-autoload -o': {
+        'dmpo': {
             args: ['ssh', '--command', 'cd /data && docker-compose run phpcomposer dumpautoload -o'],
             description: "Rebuild optimised composer autoload files"
         },
         'require|install': {
             args: ['ssh', '--command', 'cd /data && docker-compose run phpcomposer require <%= lodash.rest(arguments).join(" ") %>'],
             description: "Install a composer dependency"
+        },
+        '*' : {
+            args: ['ssh', '--command', 'cd /data && docker-compose run phpcomposer <%= process.argv.slice(3).join(" ") %>'],
+            description: 'Run arbitrary composer command'
         }
 
     },
