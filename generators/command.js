@@ -17,14 +17,14 @@ module.exports = function (context, commands, request) {
                 description: "Print this help page",
                 run: function(args, commands){
 
-                    context.log(chalk.green("Options: "));
+                    context.log(chalk.blue("Options: "));
 
                     _.each(commands, function(cmd, key){
                         if (key.charAt(0) == '_'){
                             return;
                         }
 
-                        context.log(chalk.blue(key) + ' : '+ _.defaults(cmd.description, '?'));
+                        context.log(chalk.magenta(key) + ' : '+ _.defaults(cmd.description, '?'));
                     })
                 }
             }
@@ -49,7 +49,7 @@ module.exports = function (context, commands, request) {
             if (!request){
                 request = '';
             }
-            context.env.error(yosay(chalk.red("Your command `"+context.options.namespace+' '+request+"` is not valid. Try `"+chalk.blue('yo '+context.options.namespace+' help')+"` to see your options")));
+            context.env.error(chalk.magenta("Error: ") + chalk.red("Your command `"+context.options.namespace+' '+request+"` is not valid. Try `"+chalk.blue('yo '+context.options.namespace+' help')+"` to see your options"));
         }
 
         //assign defaults
@@ -84,7 +84,7 @@ module.exports = function (context, commands, request) {
                 commandString += ' ' + commandConf.args.join(' ');
             }
 
-            context.log(chalk.green('Running command'), chalk.blue('`'+commandString+'`'));
+            context.log(chalk.magenta('Running command'), chalk.blue('`'+commandString+'`'));
 
             var ls = context.spawnCommand(commandConf.command, commandConf.args);
 
@@ -93,8 +93,13 @@ module.exports = function (context, commands, request) {
             });
 
             ls.on('close', function (code) {
-                if (commandConf.error && code > 0){
-                    commandConf.error(context, code);
+                if (code > 0){
+                    if (_.isFunction(commandConf.error)){
+                        commandConf.error(context, code);
+                    }else{
+                        context.env.error(chalk.magenta("Error: ") + chalk.red('Command exited with error status '+ chalk.white.bgRed(' '+code+' ')));
+                    }
+
                 }
                 done();
             });
