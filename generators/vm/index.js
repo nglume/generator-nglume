@@ -35,6 +35,10 @@ module.exports = generators.Base.extend({
                 ym.log(chalk.green('Try running '+chalk.blue('`yo nglume:vm up`')+' first'));
             },
             description: 'Log in to virtual machine'
+        },
+        '*' : {
+            args: ['<%= process.argv.slice(3).join(" ") %>'],
+            description: 'Run arbitrary vagrant command'
         }
 
     },

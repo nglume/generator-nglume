@@ -44,6 +44,10 @@ module.exports = generators.Base.extend({
         'pull' : {
             args: ['ssh', '--command', 'cd /data && docker-compose pull'],
             description: 'Update docker containers'
+        },
+        '*' : {
+            args: ['ssh', '--command', 'cd /data && docker-compose <%= process.argv.slice(3).join(" ") %>'],
+            description: 'Run arbitrary docker-compose command'
         }
 
     },

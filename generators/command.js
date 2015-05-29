@@ -32,14 +32,18 @@ module.exports = function (context, commands, request) {
 
         var done = context.async();
 
-        var commandConf = _.find(commands, function(arg, command){
+        var commandConf = _.find(commands, function(arg, commandAliases){
 
             if (!request){
                 return false;
             }
 
-            return new RegExp(request).test(command);
+            return _.contains(commandAliases.split('|'), request)
         });
+
+        if (!commandConf && _.has(commands, '*')){ //no match found but catchall is defined
+            commandConf = commands['*'];
+        }
 
         if (!commandConf){
             if (!request){
@@ -58,6 +62,7 @@ module.exports = function (context, commands, request) {
             if (! /<%.*%>/.test(arg)){
                 return arg;
             }
+
             return _.template(arg, {
                 imports: {
                     lodash: _
