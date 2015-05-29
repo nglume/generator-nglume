@@ -9,9 +9,12 @@ module.exports = function (context, commands, request) {
         commands = _.defaults(commands, {
             '_baseCommand': 'ls',
             'ls|list': {
-                args: ['-alh']
+                command: 'ls',
+                args: ['-alh'],
+                description: "List files in cwd"
             },
             'help': {
+                description: "Print this help page",
                 run: function(args, commands){
 
                     context.log(chalk.green("Options: "));
@@ -30,16 +33,37 @@ module.exports = function (context, commands, request) {
         var done = context.async();
 
         var commandConf = _.find(commands, function(arg, command){
+
+            if (!request){
+                return false;
+            }
+
             return new RegExp(request).test(command);
         });
 
         if (!commandConf){
-            context.env.error(yosay(chalk.red("Your command `"+request+"` is not valid")));
+            if (!request){
+                request = '';
+            }
+            context.env.error(yosay(chalk.red("Your command `"+context.options.namespace+' '+request+"` is not valid. Try `"+chalk.blue('yo '+context.options.namespace+' help')+"` to see your options")));
         }
 
         //assign defaults
         commandConf = _.defaults(commandConf, {
             command: commands._baseCommand
+        });
+
+        commandConf.args = _.map(commandConf.args, function(arg){
+
+            if (! /<%.*%>/.test(arg)){
+                return arg;
+            }
+            return _.template(arg, {
+                imports: {
+                    lodash: _
+                }
+            })(context);
+
         });
 
         if (_.isFunction(commandConf.run)){

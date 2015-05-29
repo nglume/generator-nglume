@@ -11,7 +11,7 @@ module.exports = generators.Base.extend({
         generators.Base.apply(this, arguments);
 
         // This makes `command` a required argument.
-        this.argument('command', { type: String, required: true });
+        this.argument('command', { type: String, required: false });
 
     },
 
@@ -35,9 +35,6 @@ module.exports = generators.Base.extend({
                 ym.log(chalk.green('Try running '+chalk.blue('`yo nglume:vm up`')+' first'));
             },
             description: 'Log in to virtual machine'
-        },
-        'boot' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose ps']
         }
 
     },
