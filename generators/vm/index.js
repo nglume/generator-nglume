@@ -1,54 +1,49 @@
 'use strict';
-var yeoman = require('yeoman-generator');
+var generators = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var _ = require('lodash');
+var command = require('../command');
 
-module.exports = yeoman.generators.Base.extend({
+module.exports = generators.Base.extend({
 
     constructor: function () {
-        yeoman.generators.Base.apply(this, arguments);
+        generators.Base.apply(this, arguments);
 
         // This makes `command` a required argument.
         this.argument('command', { type: String, required: true });
 
     },
 
-    command: function () {
-        var done = this.async();
-
-        var ym = this;
-
-        var commandMap2 = {
-            'up|start' : ['up'],
-            'down|stop|suspend' : ['suspend'],
-            'reload|restart' : ['reload'],
-            'ssh' : ['ssh'],
-
-            'boot' : ['ssh', '--command', 'cd /data && docker-compose ps']
-        };
-
-        var arg = _.find(commandMap2, function(arg, command){
-            return new RegExp(ym.command).test(command);
-        });
-
-        if (!arg){
-            ym.env.error(chalk.red("Your command `"+this.command+"` is not valid"));
+    _commands: {
+        '_baseCommand' : 'vagrant',
+        'up|start' : {
+            args: ['up'],
+            description: 'Start virtual machine'
+        },
+        'down|stop|suspend' : {
+            args: ['suspend'],
+            description: 'Stop virtual machine'
+        },
+        'reload|restart' : {
+            args: ['reload'],
+            description: 'Reload virtual machine'
+        },
+        'ssh' : {
+            args: ['ssh'],
+            error: function(ym, code){
+                ym.log(chalk.green('Try running '+chalk.blue('`yo nglume:vm up`')+' first'));
+            },
+            description: 'Log in to virtual machine'
+        },
+        'boot' : {
+            args: ['ssh', '--command', 'cd /data && docker-compose ps']
         }
 
-        console.log('running command', arg);
-        var ls = this.spawnCommand('vagrant', arg);
+    },
 
-        ls.on('error', function(error){
-            ym.log(error);
-        });
-
-        ls.on('close', function (code) {
-            done();
-        });
-
-
-
+    command: function(){
+        command(this, this._commands, this.command);
     }
 
 });
