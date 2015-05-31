@@ -19,7 +19,7 @@ module.exports = generators.Base.extend({
         '_baseCommand' : '',
         'api': {
             command: './node_modules/.bin/newman',
-            args: ['-c', './api/postman/spira.json.postman_collection', '-e', './api/postman/spira-local.postman_environment', '--stopOnError'],
+            args: ['-c', './api/postman/nglume.json.postman_collection', '-e', './api/postman/nglume-local.postman_environment', '--stopOnError'],
             description: "Run newman integration test"
         },
         'phplocal': {
