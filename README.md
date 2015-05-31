@@ -1,4 +1,4 @@
-# generator-nglume [![Build Status](https://secure.travis-ci.org/xiphiaz/generator-nglume.png?branch=master)](https://travis-ci.org/xiphiaz/generator-nglume)
+# generator-spira [![Build Status](https://secure.travis-ci.org/xiphiaz/generator-spira.png?branch=master)](https://travis-ci.org/xiphiaz/generator-spira)
 
 > [Yeoman](http://yeoman.io) generator
 
@@ -23,16 +23,16 @@ npm install -g yo
 
 Yeoman travels light. He didn't pack any generators when he moved in. You can think of a generator like a plug-in. You get to choose what type of application you wish to create, such as a Backbone application or even a Chrome extension.
 
-To install generator-nglume from npm, run:
+To install generator-spira from npm, run:
 
 ```bash
-npm install -g generator-nglume
+npm install -g generator-spira
 ```
 
 Finally, initiate the generator:
 
 ```bash
-yo nglume
+yo spira
 ```
 
 ### Getting To Know Yeoman

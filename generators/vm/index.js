@@ -32,7 +32,7 @@ module.exports = generators.Base.extend({
         'ssh' : {
             args: ['ssh'],
             error: function(ym, code){
-                ym.log(chalk.blue('Try running '+chalk.magenta('`yo nglume:vm up`')+' first'));
+                ym.log(chalk.blue('Try running '+chalk.magenta('`yo spira:vm up`')+' first'));
             },
             description: 'Log in to virtual machine'
         },
