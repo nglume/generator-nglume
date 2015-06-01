@@ -25,7 +25,7 @@ module.exports = generators.Base.extend({
             args: ['ssh', '--command', 'cd /data && docker-compose run phpcomposer dumpautoload -o'],
             description: "Rebuild optimised composer autoload files"
         },
-        'require|install': {
+        'require': {
             args: ['ssh', '--command', 'cd /data && docker-compose run phpcomposer require <%= lodash.rest(arguments).join(" ") %>'],
             description: "Install a composer dependency"
         },

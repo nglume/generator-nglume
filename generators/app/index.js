@@ -38,12 +38,39 @@ module.exports = generators.Base.extend({
             'Welcome to the stellar ' + chalk.red('spira') + ' generator!'
         ));
 
+        var thisGenerator = this;
+
         var prompts = [
+            {
+                type: 'checkbox',
+                name: 'steps',
+                message: "Select which steps you would like to complete",
+                choices: function(currentAnswers){
+
+                    var steps = _.reduce(thisGenerator._installSteps, function(res, installStep, key){
+                        res.push({
+                            name: (res.length + 1) + '. ' + installStep.name,
+                            value: key,
+                            checked: true
+                        });
+
+                        return res;
+                    }, []);
+
+                    console.log('steps', steps);
+
+                    return steps;
+
+                }
+            },
             {
                 type: 'input',
                 name: 'remoteRepo',
                 message: 'Enter the remote repo of your spira project to clone',
-                default: 'https://github.com/spira/spira.git'
+                default: 'https://github.com/spira/spira.git',
+                when: function(currentAnswers){
+                    return _.contains(currentAnswers.steps, 'cloneRepo');
+                }
             },
             {
                 type: 'list',
@@ -71,6 +98,9 @@ module.exports = generators.Base.extend({
                     });
 
                     return options;
+                },
+                when: function(currentAnswers){
+                    return _.contains(currentAnswers.steps, 'cloneRepo');
                 }
             },
             {
@@ -79,7 +109,7 @@ module.exports = generators.Base.extend({
                 message: 'Enter the folder name you want to create the project in',
                 when: function(currentAnswers){
 
-                    return currentAnswers.appFolder === false;
+                    return _.contains(currentAnswers.steps, 'cloneRepo') && currentAnswers.appFolder === false;
                 }
             }
         ];
@@ -87,6 +117,10 @@ module.exports = generators.Base.extend({
         this.prompt(prompts, function (props) {
             this.props = props;
             // To access props later use this.props.someOption;
+
+            if (!props.appFolder){
+                props.appFolder = '.';
+            }
 
             done();
         }.bind(this));
@@ -117,49 +151,137 @@ module.exports = generators.Base.extend({
 
         projectfiles: function(){
 
-            console.log('this.props', this.props);
+            //console.log('this.props', this.props);
 
         }
 
     },
 
-    install: function () {
+    _installSteps: {
 
-        //this.spawnCommand('git', ['clone', this.props.remoteRepo, this.props.appFolder]);
-        //
-        //this.spawnCommand('cd', [this.props.appFolder]);
+        cloneRepo: {
+            name: "Clone repository",
+            installPromise: function (generator) {
+
+                return command.promised(generator, 'git', ['clone', generator.props.remoteRepo, generator.props.appFolder]);
+            }
+        },
+
+        bootVm: {
+            name: "Boot VM",
+            installPromise: function (generator) {
+
+                return command.promised(generator, 'yo', ['spira:vm', 'up'], {
+                    cwd: generator.props.appFolder
+                });
+            }
+        },
+
+        pullImages: {
+            name: "Pull Images",
+            installPromise: function (generator) {
+
+                return command.promised(generator, 'yo', ['spira:docker', 'pull'], {
+                    cwd: generator.props.appFolder
+                });
+            }
+        },
+
+        startContainers: {
+            name: "Start Containers",
+            installPromise: function (generator) {
+
+                return command.promised(generator, 'yo', ['spira:docker', 'up'], {
+                    cwd: generator.props.appFolder
+                });
+            }
+        },
+
+        composerInstall: {
+            name: "Install composer dependencies",
+            installPromise: function (generator) {
+                return command.promised(generator, 'yo', ['spira:composer', 'install'], {
+                    cwd: generator.props.appFolder
+                });
+            }
+        },
+        composerAutoload: {
+            name: "Build php autoload files",
+            installPromise: function (generator) {
+                return command.promised(generator, 'yo', ['spira:composer', 'dmpo'], {
+                    cwd: generator.props.appFolder
+                });
+            }
+        },
+        buildDatabase: {
+            name: "Build database",
+            installPromise: function (generator) {
+
+                return command.promised(generator, 'yo', ['spira:db', 'ms'], {
+                    cwd : generator.props.appFolder
+                });
+            }
+        },
+        npmInstall: {
+            name: "Install npm dependencies",
+            installPromise: function (generator) {
+
+                return command.promised(generator, 'yo', ['spira:npm', 'install'], {
+                    cwd : generator.props.appFolder
+                });
+            }
+        },
+        bowerInstall: {
+            name: "Install bower dependencies",
+            installPromise: function (generator) {
+
+                return command.promised(generator, 'yo', ['spira:gulp', 'bower:install'], {
+                    cwd : generator.props.appFolder
+                });
+            }
+        },
+        gulpBuild: {
+            name: "Build app files",
+            installPromise: function (generator) {
+
+                return command.promised(generator, 'yo', ['spira:gulp', 'build'], {
+                    cwd : generator.props.appFolder
+                });
+
+            }
+        }
+
+    },
+
+
+    install: function () {
 
         var generator = this;
 
-        command.promised(generator, 'git', ['clone', generator.props.remoteRepo, generator.props.appFolder])
+        var installSequence = _.map(this.props.steps, function(step){
 
+            return generator._installSteps[step].installPromise;
+
+        });
+
+
+        var promisedSequence = _.reduce(installSequence, function(soFar, installFn){
+            return soFar.then(function(){
+                return installFn(generator);
+            });
+        }, Q.when(true));
+
+        promisedSequence
             .then(function(){
-                return command.promised(generator, 'yo', ['spira:vm', 'up'], {
-                    cwd : generator.props.appFolder
-                });
+                generator.log(yosay(
+                    'All Done!'
+                ));
             })
-
-            .then(function(){
-
-                return Q.all([
-                    command.promised(generator, 'yo', ['spira:npm', 'install'], {
-                        cwd : generator.props.appFolder
-                    }),
-                    command.promised(generator, 'yo', ['spira:composer', 'install'], {
-                        cwd : generator.props.appFolder + '/ap'
-                    }),
-                    command.promised(generator, 'yo', ['spira:gulp', 'bower:install'], {
-                        cwd : generator.props.appFolder
-                    })
-                ]);
-            })
-
             .catch(function(err){
                 console.log('err', err);
                 generator.env.error(chalk.magenta("Error: ") + chalk.red(err.message));
             })
         ;
-
 
     }
 });

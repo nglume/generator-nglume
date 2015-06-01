@@ -11,6 +11,14 @@ module.exports =  {
 
         var deferred = Q.defer();
 
+        var commandString = cmd;
+
+        if (!!args){
+            commandString += ' ' + args.join(' ');
+        }
+
+        context.log(chalk.magenta('Running command'), chalk.blue('`'+commandString+'`'));
+
         context.spawnCommand(cmd, args, opts)
             .on('error', function (err) {
                 deferred.reject(err);
@@ -112,8 +120,12 @@ module.exports =  {
 
             context.log(chalk.magenta('Running command'), chalk.blue('`'+commandString+'`'));
 
-            var ls = context.spawnCommand(commandConf.command, commandConf.args);
+            //if we asked for some env vars to be merged, merge it in to the current env vars, dont overwrite
+            if (commandConf.options && commandConf.options.env){
+                commandConf.options.env = _.extend(process.env, commandConf.options.env);
+            }
 
+            var ls = context.spawnCommand(commandConf.command, commandConf.args, commandConf.options || {});
 
             ls.on('close', function (code) {
                 if (code > 0){
