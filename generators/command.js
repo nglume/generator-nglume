@@ -3,8 +3,34 @@ var generators = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var _ = require('lodash');
+var Q = require('q');
 
-module.exports = function (context, commands, request) {
+module.exports =  {
+
+    promised: function(context, cmd, args, opts){
+
+        var deferred = Q.defer();
+
+        context.spawnCommand(cmd, args, opts)
+            .on('error', function (err) {
+                deferred.reject(err);
+            })
+            .on('close', function (code, err) {
+
+                if (code == 0){
+                    deferred.resolve(code);
+                }else{
+                    deferred.reject(code, err);
+                }
+
+
+            })
+        ;
+
+        return deferred.promise;
+    },
+
+    register: function (context, commands, request) {
 
         commands = _.defaults(commands, {
             '_baseCommand': 'ls',
@@ -88,9 +114,6 @@ module.exports = function (context, commands, request) {
 
             var ls = context.spawnCommand(commandConf.command, commandConf.args);
 
-            ls.on('error', function(error){
-                context.log(error);
-            });
 
             ls.on('close', function (code) {
                 if (code > 0){
@@ -108,5 +131,7 @@ module.exports = function (context, commands, request) {
 
 
 
+    }
 
-    };
+};
+

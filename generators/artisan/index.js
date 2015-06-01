@@ -24,7 +24,7 @@ module.exports = generators.Base.extend({
     },
 
     command: function(){
-        command(this, this._commands, this.command);
+        command.register(this, this._commands, this.command);
     }
 
 });

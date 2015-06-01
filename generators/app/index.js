@@ -3,8 +3,9 @@ var generators = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var _ = require('lodash');
-var url = require('url');
 var path = require('path');
+var command = require('../command');
+var Q = require('q');
 
 module.exports = generators.Base.extend({
 
@@ -124,7 +125,40 @@ module.exports = generators.Base.extend({
 
     install: function () {
 
-        this.spawnCommand('git', ['clone', this.props.remoteRepo, this.props.appFolder]);
+        //this.spawnCommand('git', ['clone', this.props.remoteRepo, this.props.appFolder]);
+        //
+        //this.spawnCommand('cd', [this.props.appFolder]);
+
+        var generator = this;
+
+        command.promised(generator, 'git', ['clone', generator.props.remoteRepo, generator.props.appFolder])
+
+            .then(function(){
+                return command.promised(generator, 'yo', ['spira:vm', 'up'], {
+                    cwd : generator.props.appFolder
+                });
+            })
+
+            .then(function(){
+
+                return Q.all([
+                    command.promised(generator, 'yo', ['spira:npm', 'install'], {
+                        cwd : generator.props.appFolder
+                    }),
+                    command.promised(generator, 'yo', ['spira:composer', 'install'], {
+                        cwd : generator.props.appFolder + '/ap'
+                    }),
+                    command.promised(generator, 'yo', ['spira:gulp', 'bower:install'], {
+                        cwd : generator.props.appFolder
+                    })
+                ]);
+            })
+
+            .catch(function(err){
+                console.log('err', err);
+                generator.env.error(chalk.magenta("Error: ") + chalk.red(err.message));
+            })
+        ;
 
 
     }
