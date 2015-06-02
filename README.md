@@ -1,4 +1,6 @@
-# generator-spira [![Build Status](https://secure.travis-ci.org/xiphiaz/generator-spira.png?branch=master)](https://travis-ci.org/xiphiaz/generator-spira)
+# generator-spira 
+[![Build Status](https://secure.travis-ci.org/xiphiaz/generator-spira.png?branch=master)](https://travis-ci.org/xiphiaz/generator-spira)
+[![Dependency Status](https://gemnasium.com/spira/generator-spira.svg)](https://gemnasium.com/spira/generator-spira)
 
 > [Yeoman](http://yeoman.io) generator
 
