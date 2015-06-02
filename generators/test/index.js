@@ -29,9 +29,16 @@ module.exports = generators.Base.extend({
         },
         'php': {
             command: 'vagrant',
-            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint /data/api/vendor/bin/phpunit php --configuration /data/api/phpunit.xml'],
+            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint /data/api/vendor/bin/phpunit php --colors --configuration /data/api/phpunit.xml --coverage-clover=/data/reports/coverage/api/clover.xml'],
+            description: "Run PHPUnit tests in docker container"
+        },
+        'phpcoveralls': {
+            command: 'vagrant',
+            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint /usr/bin/php lumen /data/vendor/bin/coveralls -v'],
             description: "Run PHPUnit tests in docker container"
         }
+
+        ///data/api/vendor/bin/phpunit --colors --configuration /data/api/phpunit.xml --coverage-clover=/data/reports/coverage/api/clover.xml"
 
     },
 
