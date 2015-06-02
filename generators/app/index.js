@@ -74,7 +74,7 @@ module.exports = generators.Base.extend({
                 type: 'list',
                 name: 'appFolder',
                 message: 'Choose the directory for your application (select one)',
-                default: './',
+                default: '.',
                 choices: function(currentAnswers){
                     var options = [
                         {
@@ -122,37 +122,6 @@ module.exports = generators.Base.extend({
 
             done();
         }.bind(this));
-    },
-
-    writing: {
-        //app: function () {
-        //    this.fs.copy(
-        //        this.templatePath('_package.json'),
-        //        this.destinationPath('package.json')
-        //    );
-        //    this.fs.copy(
-        //        this.templatePath('_bower.json'),
-        //        this.destinationPath('bower.json')
-        //    );
-        //},
-        //
-        //projectfiles: function () {
-        //    this.fs.copy(
-        //        this.templatePath('editorconfig'),
-        //        this.destinationPath('.editorconfig')
-        //    );
-        //    this.fs.copy(
-        //        this.templatePath('jshintrc'),
-        //        this.destinationPath('.jshintrc')
-        //    );
-        //}
-
-        projectfiles: function(){
-
-            //console.log('this.props', this.props);
-
-        }
-
     },
 
     _installSteps: {
