@@ -57,8 +57,6 @@ module.exports = generators.Base.extend({
                         return res;
                     }, []);
 
-                    console.log('steps', steps);
-
                     return steps;
 
                 }
@@ -177,21 +175,21 @@ module.exports = generators.Base.extend({
             }
         },
 
-        pullImages: {
-            name: "Pull Images",
+        installVagrantPlugins: {
+            name: "Install Vagrant Plugins",
             installPromise: function (generator) {
 
-                return command.promised(generator, 'yo', ['spira:docker', 'pull'], {
+                return command.promised(generator, 'vagrant', ['plugin', 'install', 'vagrant-docker-compose'], {
                     cwd: generator.props.appFolder
                 });
             }
         },
 
-        startContainers: {
-            name: "Start Containers",
+        pullImages: {
+            name: "Pull Images",
             installPromise: function (generator) {
 
-                return command.promised(generator, 'yo', ['spira:docker', 'up'], {
+                return command.promised(generator, 'yo', ['spira:docker', 'pull'], {
                     cwd: generator.props.appFolder
                 });
             }
@@ -213,6 +211,7 @@ module.exports = generators.Base.extend({
                 });
             }
         },
+
         buildDatabase: {
             name: "Build database",
             installPromise: function (generator) {
@@ -222,6 +221,7 @@ module.exports = generators.Base.extend({
                 });
             }
         },
+
         npmInstall: {
             name: "Install npm dependencies",
             installPromise: function (generator) {
@@ -231,6 +231,7 @@ module.exports = generators.Base.extend({
                 });
             }
         },
+
         bowerInstall: {
             name: "Install bower dependencies",
             installPromise: function (generator) {
@@ -240,6 +241,7 @@ module.exports = generators.Base.extend({
                 });
             }
         },
+
         gulpBuild: {
             name: "Build app files",
             installPromise: function (generator) {
@@ -249,7 +251,28 @@ module.exports = generators.Base.extend({
                 });
 
             }
+        },
+
+        startContainers: {
+            name: "Start Containers",
+            installPromise: function (generator) {
+
+                return command.promised(generator, 'yo', ['spira:docker', 'up'], {
+                    cwd: generator.props.appFolder
+                });
+            }
+        },
+
+        writeHosts: {
+            name: "Write Hosts File (/etc/hosts)",
+            installPromise: function (generator) {
+
+                return command.promised(generator, 'sudo', ['--', 'sh',  '-c', "printf '\n\n# start spira vagrant/docker\n192.168.2.2\tlocal.spira.io\n192.168.2.2\tlocal.api.spira.io\n192.168.2.2\tlocal.app.spira.io\n# end spira vagrant/docker' >> /etc/hosts"], {
+                    cwd: generator.props.appFolder
+                });
+            }
         }
+
 
     },
 
