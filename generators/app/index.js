@@ -259,6 +259,10 @@ module.exports = generators.Base.extend({
 
                 return command.promised(generator, 'yo', ['spira:docker', 'up'], {
                     cwd: generator.props.appFolder
+                }).then(function(){
+                    return command.promised(generator, 'yo', ['spira:docker', 'ps'], {
+                        cwd: generator.props.appFolder
+                    });
                 });
             }
         },
@@ -268,6 +272,16 @@ module.exports = generators.Base.extend({
             installPromise: function (generator) {
 
                 return command.promised(generator, 'sudo', ['--', 'sh',  '-c', "printf '\n\n# start spira vagrant/docker\n192.168.2.2\tlocal.spira.io\n192.168.2.2\tlocal.api.spira.io\n192.168.2.2\tlocal.app.spira.io\n# end spira vagrant/docker' >> /etc/hosts"], {
+                    cwd: generator.props.appFolder
+                });
+            }
+        },
+
+        startBrowserStack: {
+            name: "Start BrowserStack",
+            installPromise: function (generator) {
+
+                return command.promised(generator, 'yo', ['spira:gulp', 'watchlocal'], {
                     cwd: generator.props.appFolder
                 });
             }

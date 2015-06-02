@@ -17,9 +17,14 @@ module.exports = generators.Base.extend({
 
     _commands: {
         '_baseCommand' : 'vagrant',
+        'watchlocal' : {
+            command: './node_modules/.bin/gulp',
+            args: ['watch'],
+            description: 'Using local gulp, run watcher'
+        },
         '*' : {
             args: ['ssh', '--command', 'cd /data && docker-compose run gulp <%= process.argv.slice(3).join(" ") %>'],
-            description: 'Run arbitrary composer command'
+            description: 'Run arbitrary gulp command'
         }
 
     },
