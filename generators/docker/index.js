@@ -30,15 +30,15 @@ module.exports = generators.Base.extend({
             description: 'Start docker containers'
         },
         'down|stop' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose stop'],
+            args: ['ssh', '--command', 'cd /data && docker-compose stop <%= process.argv.slice(4).join(" ") %>'],
             description: 'Stop docker containers'
         },
         'logs' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose logs'],
+            args: ['ssh', '--command', 'cd /data && docker-compose logs <%= process.argv.slice(4).join(" ") %>'],
             description: 'Get docker logs'
         },
         'reload|restart' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose restart'],
+            args: ['ssh', '--command', 'cd /data && docker-compose restart <%= process.argv.slice(4).join(" ") %>'],
             description: 'Restart docker containers'
         },
         'pull' : {
