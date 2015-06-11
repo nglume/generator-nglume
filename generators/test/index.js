@@ -32,6 +32,11 @@ module.exports = generators.Base.extend({
             args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint /data/api/vendor/bin/phpunit lumen --colors --configuration /data/api/phpunit.xml --coverage-clover=/data/reports/coverage/api/clover.xml'],
             description: "Run PHPUnit tests in docker container"
         },
+        'app|integration|bdd': {
+            command: 'vagrant',
+            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint /data/node_modules/.bin/cucumber.js gulp'],
+            description: "Run PHPUnit tests in docker container"
+        },
         'coveralls': {
             command: 'vagrant',
             args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint /usr/bin/php lumen /data/vendor/bin/coveralls -v'],
