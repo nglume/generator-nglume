@@ -22,9 +22,9 @@ module.exports = generators.Base.extend({
             args: ['--configuration', './api/phpunit.xml'],
             description: "Run PHPUnit tests locally"
         },
-        'php|api': {
+        'php|api|phpunit': {
             command: 'vagrant',
-            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint hhvm php /data/api/vendor/bin/phpunit --colors --configuration /data/api/phpunit.xml --coverage-clover=/data/reports/coverage/api/clover.xml'],
+            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint hhvm php /data/api/vendor/bin/phpunit --colors --configuration /data/api/phpunit.xml --coverage-clover=/data/reports/coverage/api/clover.xml <%= process.argv.slice(4).join(" ") %>'],
             description: "Run PHPUnit tests in docker container"
         },
         'app|integration|bdd': {
