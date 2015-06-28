@@ -18,7 +18,7 @@ module.exports = generators.Base.extend({
     _commands: {
         '_baseCommand' : 'vagrant',
         '*' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose run artisan <%= process.argv.slice(3).join(" ") %>'],
+            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint hhvm devtools api/artisan <%= process.argv.slice(3).join(" ") %>'],
             description: 'Run arbitrary artisan command'
         }
     },

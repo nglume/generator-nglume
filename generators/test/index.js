@@ -24,12 +24,12 @@ module.exports = generators.Base.extend({
         },
         'php|api|phpunit': {
             command: 'vagrant',
-            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint hhvm php /data/api/vendor/bin/phpunit --colors --configuration /data/api/phpunit.xml --coverage-clover=/data/reports/coverage/api/clover.xml <%= process.argv.slice(4).join(" ") %>'],
+            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint hhvm devtools /data/api/vendor/bin/phpunit --colors --configuration /data/api/phpunit.xml --coverage-clover=/data/reports/coverage/api/clover.xml <%= process.argv.slice(4).join(" ") %>'],
             description: "Run PHPUnit tests in docker container"
         },
         'app|integration|bdd': {
             command: 'vagrant',
-            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint /data/node_modules/.bin/cucumber.js gulp'],
+            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint /data/node_modules/.bin/cucumber.js devtools'],
             description: "Run PHPUnit tests in docker container"
         },
         'coveralls': {

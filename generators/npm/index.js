@@ -18,7 +18,7 @@ module.exports = generators.Base.extend({
     _commands: {
         '_baseCommand' : 'vagrant',
         '*' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose run npm <%= process.argv.slice(3).join(" ") %>'],
+            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint npm devtools <%= process.argv.slice(3).join(" ") %>'],
             description: 'Run arbitrary npm command'
         }
 

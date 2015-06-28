@@ -23,7 +23,7 @@ module.exports = generators.Base.extend({
             description: 'Using local gulp, run watcher'
         },
         '*' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose run gulp <%= process.argv.slice(3).join(" ") %>'],
+            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint gulp devtools <%= process.argv.slice(3).join(" ") %>'],
             description: 'Run arbitrary gulp command'
         }
 

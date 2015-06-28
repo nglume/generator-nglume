@@ -18,19 +18,19 @@ module.exports = generators.Base.extend({
     _commands: {
         '_baseCommand' : 'vagrant',
         'dmp': {
-            args: ['ssh', '--command', 'cd /data && docker-compose run phpcomposer dumpautoload'],
+            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint hhvm devtools /usr/bin/composer dumpautoload'],
             description: "Rebuild composer autoload files"
         },
         'dmpo': {
-            args: ['ssh', '--command', 'cd /data && docker-compose run phpcomposer dumpautoload -o'],
+            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint hhvm devtools /usr/bin/composer dumpautoload -o'],
             description: "Rebuild optimised composer autoload files"
         },
         'require': {
-            args: ['ssh', '--command', 'cd /data && docker-compose run phpcomposer require <%= lodash.rest(arguments).join(" ") %>'],
+            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint hhvm devtools /usr/bin/composer require <%= lodash.rest(arguments).join(" ") %>'],
             description: "Install a composer dependency"
         },
         '*' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose run phpcomposer <%= process.argv.slice(3).join(" ") %>'],
+            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint hhvm devtools /usr/bin/composer <%= process.argv.slice(3).join(" ") %>'],
             description: 'Run arbitrary composer command'
         }
 
