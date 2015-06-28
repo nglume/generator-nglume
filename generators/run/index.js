@@ -17,8 +17,13 @@ module.exports = generators.Base.extend({
 
     _commands: {
         '_baseCommand' : 'vagrant',
+        'shell': {
+            command: 'vagrant',
+            args: ['ssh', '--command', 'cd /data && docker-compose run --no-deps --entrypoint=/bin/bash devtools'],
+            description: 'Interactive shell'
+        },
         '*' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose run devtools <%= process.argv.slice(3).join(" ") %>'],
+            args: ['ssh', '--command', 'cd /data && docker-compose run --no-deps --entrypoint <%= process.argv[3] %> devtools <%= process.argv.slice(4).join(" ") %>'],
             description: 'Run arbitrary development command'
         }
     },
