@@ -16,14 +16,14 @@ module.exports = generators.Base.extend({
     },
 
     _commands: {
-        '_baseCommand' : 'vagrant',
+        '_baseCommand' : 'yo',
         'watchlocal' : {
             command: './node_modules/.bin/gulp',
             args: ['watch'],
             description: 'Using local gulp, run watcher'
         },
         '*' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint gulp devtools <%= process.argv.slice(3).join(" ") %>'],
+            args: ['spira:run', 'gulp', '<%= process.argv.slice(3).join(" ") %>'],
             description: 'Run arbitrary gulp command'
         }
 
