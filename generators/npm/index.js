@@ -16,9 +16,9 @@ module.exports = generators.Base.extend({
     },
 
     _commands: {
-        '_baseCommand' : 'vagrant',
+        '_baseCommand' : 'yo',
         '*' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose run npm <%= process.argv.slice(3).join(" ") %>'],
+            args: ['spira:run', 'npm', '<%= process.argv.slice(3).join(" ") %>'],
             description: 'Run arbitrary npm command'
         }
 

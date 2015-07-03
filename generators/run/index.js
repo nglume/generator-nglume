@@ -16,17 +16,16 @@ module.exports = generators.Base.extend({
     },
 
     _commands: {
-        '_baseCommand' : 'yo',
-        'watchlocal' : {
-            command: './node_modules/.bin/gulp',
-            args: ['watch'],
-            description: 'Using local gulp, run watcher'
+        '_baseCommand' : 'vagrant',
+        'shell': {
+            command: 'vagrant',
+            args: ['ssh', '--command', 'cd /data && docker-compose run --no-deps --entrypoint=/bin/bash devtools'],
+            description: 'Interactive shell'
         },
         '*' : {
-            args: ['spira:run', 'gulp', '<%= process.argv.slice(3).join(" ") %>'],
-            description: 'Run arbitrary gulp command'
+            args: ['ssh', '--command', 'cd /data && docker-compose run --no-deps --entrypoint <%= process.argv[3] %> devtools <%= process.argv.slice(4).join(" ") %>'],
+            description: 'Run arbitrary development command'
         }
-
     },
 
     command: function(){
