@@ -23,18 +23,18 @@ module.exports = generators.Base.extend({
             description: "Run PHPUnit tests locally"
         },
         'php|api|phpunit': {
-            command: 'vagrant',
-            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint hhvm php /data/api/vendor/bin/phpunit --colors --configuration /data/api/phpunit.xml --coverage-clover=/data/reports/coverage/api/clover.xml <%= process.argv.slice(4).join(" ") %>'],
+            command: 'yo',
+            args: ['spira:run', 'hhvm', '/data/api/vendor/bin/phpunit --colors --configuration /data/api/phpunit.xml --coverage-clover=/data/reports/coverage/api/clover.xml <%= process.argv.slice(4).join(" ") %>'],
             description: "Run PHPUnit tests in docker container"
         },
         'app|integration|bdd': {
-            command: 'vagrant',
-            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint /data/node_modules/.bin/cucumber.js gulp'],
+            command: 'yo',
+            args: ['spira:run', '/data/node_modules/.bin/cucumber.js'],
             description: "Run PHPUnit tests in docker container"
         },
         'coveralls': {
-            command: 'vagrant',
-            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint /usr/bin/php lumen /data/vendor/bin/coveralls -v'],
+            command: 'yo',
+            args: ['spira:run', 'hhvm', '/data/vendor/bin/coveralls -v'],
             description: "Compile PHP and JS coverage data and send to Coveralls.io"
         }
 
