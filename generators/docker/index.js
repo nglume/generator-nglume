@@ -17,32 +17,34 @@ module.exports = generators.Base.extend({
 
     _commands: {
         '_baseCommand' : 'vagrant',
-        'ls|list': {
-            args: ['ssh', '--command', 'cd /data && ls -alh'],
-            description: "List files in (docker) cwd"
-        },
         'ps|status' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose ps'],
+            command: 'yo',
+            args: ['spira:docker', 'ps'],
             description: 'Get docker container info'
         },
         'up|start' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose up -d'],
+            command: 'yo',
+            args: ['spira:docker', 'up -d'],
             description: 'Start docker containers'
         },
         'down|stop' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose stop <%= process.argv.slice(4).join(" ") %>'],
+            command: 'yo',
+            args: ['spira:docker', 'stop <%= process.argv.slice(4).join(" ") %>'],
             description: 'Stop docker containers'
         },
         'logs' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose logs <%= process.argv.slice(4).join(" ") %>'],
+            command: 'yo',
+            args: ['spira:docker', 'logs <%= process.argv.slice(4).join(" ") %>'],
             description: 'Get docker logs'
         },
         'reload|restart' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose restart <%= process.argv.slice(4).join(" ") %>'],
+            command: 'yo',
+            args: ['spira:docker', 'restart <%= process.argv.slice(4).join(" ") %>'],
             description: 'Restart docker containers'
         },
         'pull' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose pull'],
+            command: 'yo',
+            args: ['spira:docker', 'pull'],
             description: 'Update docker containers'
         },
         '*' : {

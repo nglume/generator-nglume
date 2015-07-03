@@ -16,21 +16,21 @@ module.exports = generators.Base.extend({
     },
 
     _commands: {
-        '_baseCommand' : 'vagrant',
+        '_baseCommand' : 'yo',
         'mrs|refresh' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint hhvm devtools api/artisan migrate:refresh --seed'],
+            args: ['spira:artisan', 'migrate:refresh --seed'],
             description: 'Refresh database with fixture data'
         },
         'ms|build' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint hhvm devtools api/artisan migrate --seed'],
+            args: ['spira:artisan', 'migrate --seed'],
             description: 'Build database with fixture data (for first time)'
         },
         'm|buildempty' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint hhvm devtools api/artisan migrate'],
+            args: ['spira:artisan', 'migrate'],
             description: 'Build database without fixture data'
         },
         'mr|rebuilddempty' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint hhvm devtools api/artisan migrate:refresh'],
+            args: ['spira:artisan', 'migrate:refresh'],
             description: 'Refresh database without fixture data'
         }
 
