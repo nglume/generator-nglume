@@ -138,7 +138,7 @@ module.exports = generators.Base.extend({
             name: "Boot VM",
             installPromise: function (generator) {
 
-                return command.promised(generator, 'yo', ['spira:vm', 'up'], {
+                return command.promised(generator, 'yo', ['spira:vm', 'up', '--no-provision'], {
                     cwd: generator.props.appFolder
                 });
             }
@@ -149,6 +149,16 @@ module.exports = generators.Base.extend({
             installPromise: function (generator) {
 
                 return command.promised(generator, 'vagrant', ['plugin', 'install', 'vagrant-docker-compose'], {
+                    cwd: generator.props.appFolder
+                });
+            }
+        },
+
+        provisionVm: {
+            name: "Provision VM",
+            installPromise: function (generator) {
+
+                return command.promised(generator, 'yo', ['spira:vm', 'provision'], {
                     cwd: generator.props.appFolder
                 });
             }

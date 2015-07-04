@@ -39,8 +39,9 @@ describe('spira:app', function () {
         });
 
         assert.ok(_.contains(allSpawnCommands, 'git clone https://github.com/spira/spira.git .'), 'Repo clone command ran');
-        assert.ok(_.contains(allSpawnCommands, 'yo spira:vm up'), 'Boot virtual machine command ran');
+        assert.ok(_.contains(allSpawnCommands, 'yo spira:vm up --no-provision'), 'Boot virtual machine command ran');
         assert.ok(_.contains(allSpawnCommands, 'vagrant plugin install vagrant-docker-compose'), 'Vagrant docker compose plugin installed');
+        assert.ok(_.contains(allSpawnCommands, 'yo spira:vm provision'), 'Provision vagrantbox');
         assert.ok(_.contains(allSpawnCommands, 'yo spira:docker pull'), 'Docker images pulled');
         assert.ok(_.contains(allSpawnCommands, 'yo spira:composer install'), 'PHP composer install ran');
         assert.ok(_.contains(allSpawnCommands, 'yo spira:composer dmpo'), 'PHP composer dumpautoload ran');
