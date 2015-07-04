@@ -19,7 +19,7 @@ module.exports = generators.Base.extend({
         '_baseCommand' : 'vagrant',
         'ps|status' : {
             command: 'yo',
-            args: ['spira:docker', 'ps'],
+            args: ['spira:docker', 'ps <%= process.argv.slice(4).join(" ") %>'],
             description: 'Get docker container info'
         },
         'up|start' : {
@@ -44,7 +44,7 @@ module.exports = generators.Base.extend({
         },
         'pull' : {
             command: 'yo',
-            args: ['spira:docker', 'pull'],
+            args: ['spira:docker', 'pull <%= process.argv.slice(4).join(" ") %>'],
             description: 'Update docker containers'
         },
         '*' : {
