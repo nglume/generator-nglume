@@ -120,10 +120,10 @@ module.exports =  {
 
             context.log(chalk.magenta('Running command'), chalk.blue('`'+commandString+'`'));
 
-            //if we asked for some env vars to be merged, merge it in to the current env vars, dont overwrite
-            if (commandConf.options && commandConf.options.env){
-                commandConf.options.env = _.extend(process.env, commandConf.options.env);
-            }
+            commandConf.options = _.extend({
+                env: process.env,
+                cwd: process.cwd()
+            }, commandConf.options);
 
             var ls = context.spawnCommand(commandConf.command, commandConf.args, commandConf.options || {});
 

@@ -18,7 +18,7 @@ module.exports = generators.Base.extend({
     _commands: {
         '_baseCommand' : 'vagrant',
         'up|start' : {
-            args: ['up', '<%= process.argv.slice(4).join(" ") %>'],
+            args: ['up'],
             description: 'Start virtual machine'
         },
         'provision' : {
