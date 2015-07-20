@@ -250,8 +250,23 @@ module.exports = generators.Base.extend({
             name: "Write Hosts File (/etc/hosts)",
             installPromise: function (generator) {
 
-                return command.promised(generator, 'sudo', ['--', 'sh',  '-c', "printf '\n\n# start spira vagrant/docker\n192.168.2.2\tlocal.spira.io\n192.168.2.2\tlocal.api.spira.io\n192.168.2.2\tlocal.app.spira.io\n# end spira vagrant/docker' >> /etc/hosts"], {
-                    cwd: generator.props.appFolder
+                var fs = require('fs');
+                fs.readFile(__dirname+'/spira-hosts', 'utf8', function (err,data) {
+                    if (err) {
+                        console.log(err);
+                        throw err;
+                    }
+                    return data;
+                });
+
+                var hostFilePromise = Q.nfcall(require('fs').readFile, __dirname+'/spira-hosts', 'utf-8');
+
+                return hostFilePromise.then(function(hostsEntries){
+
+                    return command.promised(generator, 'sudo', ['--', 'sh',  '-c', "printf '"+hostsEntries+"' >> /etc/hosts"], {
+                        cwd: generator.props.appFolder
+                    });
+
                 });
             }
         },
