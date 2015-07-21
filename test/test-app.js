@@ -28,7 +28,11 @@ describe('spira:app', function () {
                 steps: installSteps,
                 appFolder: '.'
             })
-            .on('end', done);
+            .on('end', function(){
+                setTimeout(function(){
+                    done();
+                }, 100); //give the fs read some time to run as the helpers function doesn't seem to wait for promises to resolve.
+            });
     });
 
     it('runs all mock install steps', function () {
@@ -52,7 +56,9 @@ describe('spira:app', function () {
         assert.ok(_.contains(allSpawnCommands, 'yo spira:docker up'), 'Docker container boot command ran');
         assert.ok(_.contains(allSpawnCommands, 'yo spira:docker ps'), 'Docker container status ran');
         assert.ok(_.contains(allSpawnCommands, 'yo spira:docker ps'), 'Docker container status ran');
-        assert.ok(_.contains(allSpawnCommands, 'sudo -- sh -c printf \'\n\n# start spira vagrant/docker\n192.168.2.2\tlocal.spira.io\n192.168.2.2\tlocal.api.spira.io\n192.168.2.2\tlocal.app.spira.io\n# end spira vagrant/docker\' >> /etc/hosts'), 'Hosts file writing ran');
+        assert.ok(_.find(allSpawnCommands, function(command){
+            return /sudo -- sh -c printf[\s\S]*?>> \/etc\/hosts/.test(command);
+        }), 'Hosts file writing ran');
         assert.ok(_.contains(allSpawnCommands, 'yo spira:gulp watchlocal'), 'Gulp watch & BrowserSync ran');
 
     })
