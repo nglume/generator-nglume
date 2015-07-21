@@ -250,15 +250,6 @@ module.exports = generators.Base.extend({
             name: "Write Hosts File (/etc/hosts)",
             installPromise: function (generator) {
 
-                var fs = require('fs');
-                fs.readFile(__dirname+'/spira-hosts', 'utf8', function (err,data) {
-                    if (err) {
-                        console.log(err);
-                        throw err;
-                    }
-                    return data;
-                });
-
                 var hostFilePromise = Q.nfcall(require('fs').readFile, __dirname+'/spira-hosts', 'utf-8');
 
                 return hostFilePromise.then(function(hostsEntries){
