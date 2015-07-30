@@ -17,6 +17,11 @@ module.exports = generators.Base.extend({
 
     _commands: {
         '_baseCommand' : 'yo',
+        'install': {
+            command: 'yo',
+            args: ['spira:run', 'npm', 'install', '--unsafe-perm'],
+            description: "Install npm dependencies"
+        },
         '*' : {
             args: ['spira:run', 'npm', '<%= process.argv.slice(3).join(" ") %>'],
             description: 'Run arbitrary npm command'
