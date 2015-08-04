@@ -27,10 +27,15 @@ module.exports = generators.Base.extend({
             args: ['spira:run', 'hhvm', '/data/api/vendor/bin/phpunit --colors --configuration /data/api/phpunit.xml --coverage-clover=/data/reports/coverage/api/clover.xml <%= process.argv.slice(4).join(" ") %>'],
             description: "Run PHPUnit tests in docker container"
         },
-        'app|integration|bdd': {
+        'app|frontend': {
             command: 'yo',
-            args: ['spira:run', '/data/node_modules/.bin/cucumber.js'],
-            description: "Run PHPUnit tests in docker container"
+            args: ['spira:gulp', 'test:app'],
+            description: "Unit test the angular js frontend"
+        },
+        'integration|bdd': {
+            command: 'yo',
+            args: ['spira:run', '/data/node_modules/.bin/cucumber.js', '--tags', '~@ignore'],
+            description: "Run integration tests against feature files"
         },
         'coveralls': {
             command: 'yo',
