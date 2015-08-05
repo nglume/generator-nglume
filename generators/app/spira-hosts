@@ -3,5 +3,6 @@
     192.168.2.2     local.api.spira.io
     192.168.2.2     local.app.spira.io
     192.168.2.2     local.logs.spira.io
+    192.168.2.2     local.forum.spira.io
     192.168.2.2     local.mailcatcher.spira.io
 # end spira vagrant/docker
