@@ -175,17 +175,27 @@ module.exports = generators.Base.extend({
         },
 
         composerInstall: {
-            name: "Install composer dependencies",
+            name: "Install API dependencies",
             installPromise: function (generator) {
                 return command.promised(generator, 'yo', ['spira:composer', 'install'], {
                     cwd: generator.props.appFolder
                 });
             }
         },
+
         composerAutoload: {
             name: "Build php autoload files",
             installPromise: function (generator) {
                 return command.promised(generator, 'yo', ['spira:composer', 'dmpo'], {
+                    cwd: generator.props.appFolder
+                });
+            }
+        },
+
+        forumInstall: {
+            name: "Install forum",
+            installPromise: function (generator) {
+                return command.promised(generator, 'yo', ['spira:forum', 'install'], {
                     cwd: generator.props.appFolder
                 });
             }

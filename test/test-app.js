@@ -49,6 +49,7 @@ describe('spira:app', function () {
         assert.ok(_.contains(allSpawnCommands, 'yo spira:docker pull'), 'Docker images pulled');
         assert.ok(_.contains(allSpawnCommands, 'yo spira:composer install'), 'PHP composer install ran');
         assert.ok(_.contains(allSpawnCommands, 'yo spira:composer dmpo'), 'PHP composer dumpautoload ran');
+        assert.ok(_.contains(allSpawnCommands, 'yo spira:forum install'), 'Forum install ran');
         assert.ok(_.contains(allSpawnCommands, 'yo spira:db ms'), 'Database migrations ran');
         assert.ok(_.contains(allSpawnCommands, 'yo spira:npm install'), 'NPM install ran');
         assert.ok(_.contains(allSpawnCommands, 'yo spira:gulp bower:install'), 'Bower install ran');
