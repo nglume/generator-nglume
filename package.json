@@ -1,6 +1,6 @@
 {
   "name": "generator-spira",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "Yeoman generator for Spira",
   "license": "MIT",
   "main": "app/index.js",
