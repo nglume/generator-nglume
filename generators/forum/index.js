@@ -25,7 +25,7 @@ module.exports = generators.Base.extend({
         'install': {
             command: 'yo',
             args: ['spira:forum', ' install'], //space is to avoid the recursion
-            description: "Install and build forum (alias for yo spira:forum build)"
+            description: "Install and build forum"
         },
         '*' : {
             args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint hhvm devtools /usr/bin/composer <%= process.argv.slice(3).join(" ") %> --working-dir forum'],
