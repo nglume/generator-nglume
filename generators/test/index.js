@@ -24,8 +24,13 @@ module.exports = generators.Base.extend({
         },
         'php|api|phpunit': {
             command: 'yo',
-            args: ['spira:run', 'hhvm', '/data/api/vendor/bin/phpunit --colors --configuration /data/api/phpunit.xml --coverage-clover=/data/reports/coverage/api/clover.xml <%= process.argv.slice(4).join(" ") %>'],
+            args: ['spira:run', 'php', '/data/api/vendor/bin/phpunit --colors --configuration /data/api/phpunit.xml <%= process.argv.slice(4).join(" ") %>'],
             description: "Run PHPUnit tests in docker container"
+        },
+        'phpcoverage|apicoverage|phpunitcoverage': {
+            command: 'yo',
+            args: ['spira:test', 'phpunit', '--coverage-clover=/data/reports/coverage/api/clover.xml'],
+            description: "Run PHPUnit tests in docker container with coverage output"
         },
         'app|frontend': {
             command: 'yo',
@@ -39,7 +44,7 @@ module.exports = generators.Base.extend({
         },
         'coveralls': {
             command: 'yo',
-            args: ['spira:run', 'hhvm', '/data/vendor/bin/coveralls -v'],
+            args: ['spira:run', 'php', '/data/vendor/bin/coveralls -v'],
             description: "Compile PHP and JS coverage data and send to Coveralls.io"
         }
 

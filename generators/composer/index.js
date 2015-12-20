@@ -28,7 +28,7 @@ module.exports = generators.Base.extend({
             description: "Rebuild optimised composer autoload files"
         },
         '*' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint hhvm devtools /usr/bin/composer <%= process.argv.slice(3).join(" ") %> --working-dir api'],
+            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint php devtools /usr/bin/composer <%= process.argv.slice(3).join(" ") %> --working-dir api'],
             description: 'Run arbitrary composer command'
         }
 
