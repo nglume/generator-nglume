@@ -24,7 +24,7 @@ module.exports = generators.Base.extend({
         },
         'php|api|phpunit': {
             command: 'yo',
-            args: ['spira:run', 'php', '/data/api/vendor/bin/phpunit --colors --configuration /data/api/phpunit.xml <%= process.argv.slice(4).join(" ") %>'],
+            args: ['spira:run', 'php', '-d memory_limit=4G', '/data/api/vendor/bin/phpunit --colors --configuration /data/api/phpunit.xml <%= process.argv.slice(4).join(" ") %>'],
             description: "Run PHPUnit tests in docker container"
         },
         'phpcoverage|apicoverage|phpunitcoverage': {
