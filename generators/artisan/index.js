@@ -18,7 +18,7 @@ module.exports = generators.Base.extend({
     _commands: {
         '_baseCommand' : 'yo',
         '*' : {
-            args: ['spira:run', 'hhvm', 'api/artisan', '<%= process.argv.slice(3).join(" ") %>'],
+            args: ['spira:run', 'php', 'api/artisan', '<%= process.argv.slice(3).join(" ") %>'],
             description: 'Run arbitrary artisan command'
         }
     },
