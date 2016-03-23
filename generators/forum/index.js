@@ -28,7 +28,7 @@ module.exports = generators.Base.extend({
             description: "Install and build forum"
         },
         '*' : {
-            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint php devtools /usr/bin/composer <%= process.argv.slice(3).join(" ") %> --working-dir forum'],
+            args: ['ssh', '--command', 'cd /data && docker-compose run --entrypoint /usr/bin/composer devtools <%= process.argv.slice(3).join(" ") %> --working-dir forum'],
             description: 'Run arbitrary composer command for forum'
         }
 
